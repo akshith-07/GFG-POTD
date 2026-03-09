@@ -1,22 +1,22 @@
 class Solution {
   public:
-    string largestSwap(string &s) {
-        // code here
-        vector<int>v(10,-1);
-        int n = s.size();
-        for(int i=n-1;i>=0;i--){
-            int dig = s[i]-'0';
-            if(v[dig]==-1) v[dig]=i;
-        }
-        for(int i=0;i<n;i++){    // O(n)
-            int dig = s[i]-'0';
-            for(int j=9;j>=0;j--){   // O(9)
-                if(v[j]!=-1 && v[j]>i && j > dig){
-                    swap(s[i],s[v[j]]);
-                    return s;
-                }
-            }
-        }
-        return s;
+    string largestSwap(string &s){
+      int n=s.size();
+      vector<int> maxi(n, 0);
+      
+      maxi[n-1]=n-1;
+      for(int i=n-2; i>=0; i--){
+        if(s[i]>s[maxi[i+1]]) maxi[i]=i;
+        else maxi[i]=maxi[i+1];
+      }
+      
+      for(int i=0; i<n; i++){
+        if(i!=maxi[i] && s[i]!=s[maxi[i]]){
+          swap(s[i], s[maxi[i]]);
+          return s;
+        }  
+      }
+      
+      return s;
     }
 };
